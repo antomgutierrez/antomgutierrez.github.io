@@ -3,8 +3,11 @@ SITENAME = 'INTRODUCCIÓN A LOS MÉTODOS DE APRENDIZAJE AUTOMÁTICO'
 SITEURL = ''
 
 PATH = 'content'
+OUTPUT_PATH = 'docs'
 
 TIMEZONE = 'Europe/Rome'
+
+THEME = 'theme'
 
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
