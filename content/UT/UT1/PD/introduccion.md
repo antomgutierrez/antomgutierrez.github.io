@@ -1,6 +1,6 @@
 ---
 date: 2013-09-11
-title: "UT1 - PD1: Introduccion al aprendizaje automatico"
+title: "Introduccion al aprendizaje automatico"
 category: UT1
 ---
 
