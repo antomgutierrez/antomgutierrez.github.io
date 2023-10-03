@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags always come first -->
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>"Mapeo de capacidades de ML" | INTRODUCCIÓN A LOS MÉTODOS DE APRENDIZAJE AUTOMÁTICO
+</title>
+  <link rel="canonical" href="/mapeo-de-capacidades-de-ml.html">
+
+
+
+  <link rel="stylesheet" href="/theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/theme/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/theme/css/pygments/default.min.css">
+  <link rel="stylesheet" href="/theme/css/style.css">
+
+
+<meta name="description" content="Preparacion de datos Los datos no son perfectos. Como todo lo demás en la vida, están sujetos a errores humanos, inconsistencias, errores ortográficos e información incompleta, repetida o redundante. La idea de la preparacion de datos (data scrubbing) es mejorar estos aspectos del detaset para poder entrenar modelos que arrojen …">
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <h1 class="title"><a href="">INTRODUCCIÓN A LOS MÉTODOS DE APRENDIZAJE AUTOMÁTICO</a></h1>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="main">
+    <div class="container">
+      <h1>"Mapeo de capacidades de ML"
+</h1>
+      <hr>
+<article class="article">
+  <header>
+    <ul class="list-inline">
+      <li class="list-inline-item text-muted" title="2013-09-11T00:00:00+02:00">
+        <i class="fa fa-clock-o"></i>
+        Wed 11 September 2013
+      </li>
+      <li class="list-inline-item">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/category/ut1.html">UT1</a>
+      </li>
+      <li class="list-inline-item">
+        <i class="fa fa-user-o"></i>
+        <a href="/author/antonella-gutierrez.html">Antonella Gutierrez</a>      </li>
+    </ul>
+  </header>
+  <div class="content">
+    <h2>Preparacion de datos</h2>
+<p>Los datos no son perfectos. Como todo lo demás en la vida, están sujetos a errores humanos, inconsistencias, errores ortográficos e información incompleta, repetida o redundante.
+La idea de la preparacion de datos (data scrubbing) es mejorar estos aspectos del detaset para poder entrenar modelos que arrojen predicciones mas certeras.</p>
+<h3>Analisis de distribuciones</h3>
+<p>// TODO</p>
+<h3>Outliers</h3>
+<p>// TODO</p>
+<h3>Manejo de datos faltantes</h3>
+<p>Son datos que no existen en el dataset. Dependiendo del contexto es posible que sea valido dejarlo como está o reemplazarlo con algún valor. No siempre es un problema.</p>
+<p>En RapidMiner, podemos ver informacion de cada atributo, en este caso lo que nos interesa son los valores faltantes. Podemos ver en este caso que <em>Read_News</em>, <em>Online_Shopping</em>, <em>Online_Gaming</em> y <em>Other_Social_Network</em> cuentan con valores faltantes
+<img alt="" src="../../../../static/UT1/statistics.jpeg"></p>
+<p>Existe el operador <em>Replace Missing Values</em> que nos permite manejar esta situacion. Podemos elegir uno o varios atributos y reemplazar los valores faltantes por:
+- El maximo valor para ese att
+- El minimo valor para ese att
+- El promedio
+- 0
+- Un valor especifico</p>
+<h3>Reducción de datos</h3>
+<p>La idea es filtrar los datos (registros) que no vayan a ser de utilidad.</p>
+<p>Se utiliza el operador <em>Filter Attributes</em> con las condiciones que el dataset resultado esperamos que cumpla. Puede utilizarse para eliminar outliers, valores que no pertenezcan a un rango preestablecido u como otra forma de manejar los valores faltantes (si no cuenta con un valor para el atributo X, elimino el registro completo).</p>
+<h3>Manejo de datos inconsistentes</h3>
+<p>Ocurre cuando el valor existe pero no es válido o significativo.</p>
+<p>En el ejemplo, se puede observar que el atributo <em>Twitter</em> cuenta con 3 valores posibles: <em>Y</em>, <em>N</em> y <em>99</em> ... <em>99</em>?
+No parece ser un valor esperado para este tipo de atributo, es inconsistente.</p>
+<p><img alt="" src="../../../../static/UT1/inconsistent.jpeg"></p>
+<p>El operador <em>Replace</em> puede ser de utilidad, ya que nos permite seleccionar el atributo y reemplazar el valor atípico <em>99</em> por uno mas razonable, <em>N</em>.
+No siempre es tan sencillo solucionar las inconsistencias dentro de un dataset, podría tomar varios reemplazos y/o operadores de datos faltantes para preparar el conjunto de datos.</p>
+<h3>Reducción de atributos</h3>
+<p>En todo dataset pueden haber atributos irrelevantes, que no aporten al proposito de predecir la variable objetivo. Si reducimos la cantidad de funciones, los modelos generalmente se entrenan mucho más rápido. Y, a menudo, el modelo resultante es más simple y fácil de entender.</p>
+<p>RapidMiner puede eliminar esos atributos en la vista sin eliminarlos del dataset, porque el hecho de que no sean de utilidad para este caso no significa que nunca vayan a ser relevantes.</p>
+<p>Hay diversas formas de reducir atributos. Puede ser realizado manualmente, con el operador <em>Select Attributes</em>.</p>
+<p>Tambien se cuenta con algoritmos para cumplir con este objetivo, dependiendo de la necesudad y tipos de datos presentes en el dataset
+<img alt="" src="../../../../static/UT1/featureSelection.jpeg"></p>
+<h2>Tipos de algoritmos</h2>
+<h3>Descenso de Gradiente y Regresión Lineal</h3>
+<p>// TODO</p>
+<h3>Regresión Logística</h3>
+<p>// TODO</p>
+<h3>Análisis Discriminante Lineal</h3>
+<h3>k-NN</h3>
+<p>// TODO</p>
+<h3>Naive Bayes</h3>
+<p>// TODO</p>
+<h2>Bibliografia</h2>
+<ul>
+<li>North, M. (2012). Data Mining for the Masses.</li>
+<li>Brownlee, J. (2016). Master Machine Learning Algorithms.</li>
+</ul>
+  </div>
+</article>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+       <ul class="col-sm-6 list-inline">
+          <li class="list-inline-item"><a href="/authors.html">Authors</a></li>
+          <li class="list-inline-item"><a href="/archives.html">Archives</a></li>
+          <li class="list-inline-item"><a href="/categories.html">Categories</a></li>
+        </ul>
+        <p class="col-sm-6 text-sm-right text-muted">
+          Generated by <a href="https://github.com/getpelican/pelican" target="_blank">Pelican</a> / <a href="https://github.com/nairobilug/pelican-alchemy" target="_blank">&#x2728;</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>
