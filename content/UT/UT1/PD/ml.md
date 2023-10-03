@@ -19,7 +19,7 @@ La idea de la preparacion de datos (data scrubbing) es mejorar estos aspectos de
 Son datos que no existen en el dataset. Dependiendo del contexto es posible que sea valido dejarlo como está o reemplazarlo con algún valor. No siempre es un problema.
 
 En RapidMiner, podemos ver informacion de cada atributo, en este caso lo que nos interesa son los valores faltantes. Podemos ver en este caso que *Read_News*, *Online_Shopping*, *Online_Gaming* y *Other_Social_Network* cuentan con valores faltantes
-![](../../../../static/UT1/statistics.jpeg)
+![](../images/UT1_statistics.jpeg)
 
 Existe el operador *Replace Missing Values* que nos permite manejar esta situacion. Podemos elegir uno o varios atributos y reemplazar los valores faltantes por:
 - El maximo valor para ese att
@@ -40,7 +40,7 @@ Ocurre cuando el valor existe pero no es válido o significativo.
 En el ejemplo, se puede observar que el atributo *Twitter* cuenta con 3 valores posibles: *Y*, *N* y *99* ... *99*?
 No parece ser un valor esperado para este tipo de atributo, es inconsistente.
 
-![](../../../../static/UT1/inconsistent.jpeg)
+![](../images/UT1_inconsistent.jpeg)
 
 El operador *Replace* puede ser de utilidad, ya que nos permite seleccionar el atributo y reemplazar el valor atípico *99* por uno mas razonable, *N*.
 No siempre es tan sencillo solucionar las inconsistencias dentro de un dataset, podría tomar varios reemplazos y/o operadores de datos faltantes para preparar el conjunto de datos.
@@ -54,7 +54,7 @@ RapidMiner puede eliminar esos atributos en la vista sin eliminarlos del dataset
 Hay diversas formas de reducir atributos. Puede ser realizado manualmente, con el operador *Select Attributes*.
 
 Tambien se cuenta con algoritmos para cumplir con este objetivo, dependiendo de la necesudad y tipos de datos presentes en el dataset
-![](../../../../static/UT1/featureSelection.jpeg)
+![](../images/UT1_featureSelection.jpeg)
 
 ## Tipos de algoritmos
 
