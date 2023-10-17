@@ -1,7 +1,7 @@
 ---
 date: 2013-09-11
 title: "Introduccion al aprendizaje automatico"
-category: UT1
+category: Introduccion
 ---
 
 El objetivo de este artículo es realizar una una introducción a los conceptos de *Machine Learning* e *Inteligencia Artificial*, entre otros. También, presentar una serie de herramientas que pueden ser de utilidad.
