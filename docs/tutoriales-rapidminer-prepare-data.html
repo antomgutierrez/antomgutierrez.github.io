@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="generator" content="Pelican" />
+        <title>"Tutoriales RapidMiner: Prepare data"</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <meta name="description" content="Tutoriales RapidMiner: Prepare data Handling Missing Values El objetivo de estos tutoriales es mostrar como realizar procesos de preparacion de..." />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">INTRODUCCIÓN A LOS MÉTODOS DE APRENDIZAJE AUTOMÁTICO</a></h1>
+                <nav><ul>
+                    <li><a href="./category/caso-de-estudio.html">Caso de estudio</a></li>
+                    <li><a href="./category/home.html">Home</a></li>
+                    <li><a href="./category/introduccion.html">Introduccion</a></li>
+                    <li class="active"><a href="./category/tutoriales.html">Tutoriales</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="./tutoriales-rapidminer-prepare-data.html" rel="bookmark"
+           title="Permalink to "Tutoriales RapidMiner: Prepare data"">"Tutoriales RapidMiner: Prepare data"</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-10-16T00:00:00+02:00">
+                Published: Wed 16 October 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/antonella-gutierrez.html">Antonella Gutierrez</a>
+        </address>
+<p>In <a href="./category/tutoriales.html">Tutoriales</a>.</p>
+
+</footer><!-- /.post-info -->      <h2>Tutoriales RapidMiner: Prepare data</h2>
+<h3>Handling Missing Values</h3>
+<p>El objetivo de estos tutoriales es mostrar como realizar procesos de preparacion de datos: manejar datos faltantes, normalizacion y deteccion de outliers.</p>
+<p>Inicia por obtener el dataset de "Titanic" y analizar sus atributos en profundidad.
+En base a ese analisis, se determina que los siguientes atributos no aportan valor para la prediccion de la variable objetivo <em>Survived</em>:
+- <em>Port of Embarkation</em>: ya que independientemente de en que puerto se haya subido al barco, es el ticket el que determina la posicion en el barco.
+- <em>Cabin</em>: puede inferirse a partir de <em>Passenger Fare</em>
+- <em>Life Boat</em>: ya que el hecho de que tenga un bote asignado implica que sobrevivio, y es informacion con la que no se va a contar al momento de la prediccion</p>
+<p><img alt="" src="images/UT2_PD1_1.jpeg"></p>
+<p>Luego de eliminados dichos atributos, es hora de analizar los valores faltantes. 
+Se puede observar que el atributo <em>Age</em> cuentan con demasiados valores faltantes (263/1309)</p>
+<p><img alt="" src="images/UT2_PD1_2.jpeg"></p>
+<p>Es necesario tomar una decision. Eliminar el 20% de las observaciones no es una opcion, por lo que el tutorial recomienda reemplazar esos valores faltantes por el valor promedio de edad.</p>
+<p><img alt="" src="images/UT2_PD1_3.jpeg"></p>
+<p>Finalmente, para aquellos registros con atributos faltantes que restan, se usa un operador <em>Filter Examples</em> para eliminarlos. Solo son 3 por lo que tiene sentido simplemente descartarlos</p>
+<p><img alt="" src="images/UT2_PD1_4.jpeg"></p>
+<p>Y de esta forma, finaliza la preparacion de los datos.</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a href="https://www.python.org/">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

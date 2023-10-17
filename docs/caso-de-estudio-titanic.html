@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="generator" content="Pelican" />
+        <title>"Caso de estudio: Titanic"</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <meta name="description" content="Caso de Estudio: Titanic Análisis del problema planteado El hundimiento del Titanic es uno de los naufragios más infames de la historia. El 15 de..." />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">INTRODUCCIÓN A LOS MÉTODOS DE APRENDIZAJE AUTOMÁTICO</a></h1>
+                <nav><ul>
+                    <li class="active"><a href="./category/caso-de-estudio.html">Caso de estudio</a></li>
+                    <li><a href="./category/home.html">Home</a></li>
+                    <li><a href="./category/introduccion.html">Introduccion</a></li>
+                    <li><a href="./category/tutoriales.html">Tutoriales</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="./caso-de-estudio-titanic.html" rel="bookmark"
+           title="Permalink to "Caso de estudio: Titanic"">"Caso de estudio: Titanic"</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-10-16T00:00:00+02:00">
+                Published: Wed 16 October 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/antonella-gutierrez.html">Antonella Gutierrez</a>
+        </address>
+<p>In <a href="./category/caso-de-estudio.html">Caso de estudio</a>.</p>
+
+</footer><!-- /.post-info -->      <h2>Caso de Estudio: Titanic</h2>
+<h2>Análisis del problema planteado</h2>
+<p>El hundimiento del Titanic es uno de los naufragios más infames de la historia.</p>
+<p>El 15 de abril de 1912, durante su viaje inaugural, el RMS Titanic, ampliamente considerado “insumergible”, se hundió después de chocar con un iceberg. Desafortunadamente, no había suficientes botes salvavidas para todos a bordo, lo que provocó la muerte de 1.502 de los 2.224 pasajeros y tripulantes.</p>
+<p>Si bien hubo algún elemento de suerte involucrado en la supervivencia, parece que algunos grupos de personas tenían más probabilidades de sobrevivir que otros.</p>
+<p>El objetivo del problema, haciendo uso de los dataset obtenidos de https://www.kaggle.com/competitions/titanic/data, es <em>predecir, dado las características de la persona, si hubiera tenido posibilidades de sobrevivir al hundimiento del Titanic</em>.</p>
+<h3>Atributos</h3>
+<ul>
+<li>
+<p>pclass</p>
+<ul>
+<li>Nominal (1st, 2nd, 3rd)</li>
+<li>Clase del ticket (ej. Primera Clase, Segunda Clase)</li>
+</ul>
+</li>
+<li>
+<p>sex</p>
+<ul>
+<li>Sexo del pasajero</li>
+</ul>
+</li>
+<li>
+<p>age</p>
+<ul>
+<li>Edad en años del pasajero</li>
+<li>Fraccional si es &lt; 1</li>
+<li>Si la edad es estimada, tiene el formato XX.5</li>
+</ul>
+</li>
+<li>
+<p>sibsp</p>
+<ul>
+<li>Numero de hemanos/as o esposo/a a bordo del barco.</li>
+</ul>
+</li>
+<li>
+<p>parch</p>
+<ul>
+<li>Numero de padres o hijos a bordo del titanic</li>
+</ul>
+</li>
+<li>
+<p>ticket</p>
+<ul>
+<li>Numero del ticket</li>
+</ul>
+</li>
+<li>
+<p>fare</p>
+<ul>
+<li>Tarifa del pasajero</li>
+</ul>
+</li>
+<li>
+<p>cabin</p>
+<ul>
+<li>Numero de cabina en el barco</li>
+</ul>
+</li>
+<li>
+<p>embarked</p>
+<ul>
+<li>Nominal (C, Q, S)</li>
+<li>Puerto de embarque</li>
+</ul>
+</li>
+</ul>
+<h2>Identificación del tipo de problema</h2>
+<p>Dado que el atributo a predecir es una variable categorica (la supervivencia o no del hundimiento), se trata de un problema de <em>clasificacion supervisado</em>.</p>
+<h2>Análisis del dataset y preparación de los datos</h2>
+<h3>Analisis del dataset</h3>
+<p>Se cuenta tanto con dataset para entrenamiento (con 891 registros) como para testing.
+En este caso utilizaremos python para realizar el procesamiento, modelado y prediccion</p>
+<p>Cargamos los datasets</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
+
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">os</span> 
+
+<span class="n">training</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;train.csv&quot;</span><span class="p">)</span>
+<span class="n">testing</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;test.csv&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>Reemplazo de valores (manejo de datos faltantes e inconsistentes)</h3>
+<p>Los datos faltantes (missing values) son datos que no existen en el dataset. Dependiendo del contexto es posible que sea valido dejarlo como está o reemplazarlo con algún valor. No siempre es un problema.</p>
+<p>Para obtener los datos faltantes ejecutamos el siguiente codigo</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">null_table</span><span class="p">(</span><span class="n">training</span><span class="p">,</span> <span class="n">testing</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Training Data Frame&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">isnull</span><span class="p">(</span><span class="n">training</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span> 
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Testing Data Frame&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">isnull</span><span class="p">(</span><span class="n">testing</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+<span class="n">null_table</span><span class="p">(</span><span class="n">training</span><span class="p">,</span> <span class="n">testing</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Obteniendo que contamos con valores faltantes para <em>Age</em> y <em>Cabin</em> en ambos datasets.</p>
+<div class="highlight"><pre><span></span><code><span class="nx">Training</span><span class="w"> </span><span class="nx">Data</span><span class="w"> </span><span class="nx">Frame</span>
+<span class="nx">PassengerId</span><span class="w">      </span><span class="mi">0</span>
+<span class="nx">Survived</span><span class="w">         </span><span class="mi">0</span>
+<span class="nx">Pclass</span><span class="w">           </span><span class="mi">0</span>
+<span class="nx">Name</span><span class="w">             </span><span class="mi">0</span>
+<span class="nx">Sex</span><span class="w">              </span><span class="mi">0</span>
+<span class="nx">Age</span><span class="w">            </span><span class="mi">177</span>
+<span class="nx">SibSp</span><span class="w">            </span><span class="mi">0</span>
+<span class="nx">Parch</span><span class="w">            </span><span class="mi">0</span>
+<span class="nx">Ticket</span><span class="w">           </span><span class="mi">0</span>
+<span class="nx">Fare</span><span class="w">             </span><span class="mi">0</span>
+<span class="nx">Cabin</span><span class="w">          </span><span class="mi">687</span>
+<span class="nx">Embarked</span><span class="w">         </span><span class="mi">2</span>
+<span class="nx">dtype</span><span class="p">:</span><span class="w"> </span><span class="nx">int64</span>
+
+<span class="nx">Testing</span><span class="w"> </span><span class="nx">Data</span><span class="w"> </span><span class="nx">Frame</span>
+<span class="nx">PassengerId</span><span class="w">      </span><span class="mi">0</span>
+<span class="nx">Pclass</span><span class="w">           </span><span class="mi">0</span>
+<span class="nx">Name</span><span class="w">             </span><span class="mi">0</span>
+<span class="nx">Sex</span><span class="w">              </span><span class="mi">0</span>
+<span class="nx">Age</span><span class="w">             </span><span class="mi">86</span>
+<span class="nx">SibSp</span><span class="w">            </span><span class="mi">0</span>
+<span class="nx">Parch</span><span class="w">            </span><span class="mi">0</span>
+<span class="nx">Ticket</span><span class="w">           </span><span class="mi">0</span>
+<span class="nx">Fare</span><span class="w">             </span><span class="mi">1</span>
+<span class="nx">Cabin</span><span class="w">          </span><span class="mi">327</span>
+<span class="nx">Embarked</span><span class="w">         </span><span class="mi">0</span>
+<span class="nx">dtype</span><span class="p">:</span><span class="w"> </span><span class="nx">int64</span>
+</code></pre></div>
+
+<p>En este caso, contamos con demasiados valores faltantes en <em>Age</em> y <em>Cabin</em></p>
+<p>Dado que el dataset cuenta con 891 registros, no podemos permitirnos eliminar casi la totalidad solo para solucionar los valores faltantes de <em>Cabin</em>... aunque tampoco parece que vaya a impactar en el modelo si directamente lo eliminamos. Aprovecharemos tambien para eliminar el atributo <em>Ticket</em> ya que unicamente es un identificador y ambos están sumamente correlacionados con la clase del pasajero. Tambien eliminaremos <em>Embarked</em> ya que el puerto de embarque no afectará las posibilidades de sobrevivir, ya que las posiciones en el barco estan previamente determinadas por la clase del pasajero.</p>
+<div class="highlight"><pre><span></span><code><span class="n">training</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Cabin&quot;</span><span class="p">,</span> <span class="s2">&quot;Ticket&quot;</span><span class="p">,</span> <span class="s2">&quot;Embarked&quot;</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">testing</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Cabin&quot;</span><span class="p">,</span> <span class="s2">&quot;Ticket&quot;</span><span class="p">,</span> <span class="s2">&quot;Embarked&quot;</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="n">null_table</span><span class="p">(</span><span class="n">training</span><span class="p">,</span> <span class="n">testing</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Y ahora</p>
+<div class="highlight"><pre><span></span><code><span class="nx">Training</span><span class="w"> </span><span class="nx">Data</span><span class="w"> </span><span class="nx">Frame</span>
+<span class="nx">PassengerId</span><span class="w">      </span><span class="mi">0</span>
+<span class="nx">Survived</span><span class="w">         </span><span class="mi">0</span>
+<span class="nx">Pclass</span><span class="w">           </span><span class="mi">0</span>
+<span class="nx">Name</span><span class="w">             </span><span class="mi">0</span>
+<span class="nx">Sex</span><span class="w">              </span><span class="mi">0</span>
+<span class="nx">Age</span><span class="w">            </span><span class="mi">177</span>
+<span class="nx">SibSp</span><span class="w">            </span><span class="mi">0</span>
+<span class="nx">Parch</span><span class="w">            </span><span class="mi">0</span>
+<span class="nx">Fare</span><span class="w">             </span><span class="mi">0</span>
+<span class="nx">dtype</span><span class="p">:</span><span class="w"> </span><span class="nx">int64</span>
+
+<span class="nx">Testing</span><span class="w"> </span><span class="nx">Data</span><span class="w"> </span><span class="nx">Frame</span>
+<span class="nx">PassengerId</span><span class="w">     </span><span class="mi">0</span>
+<span class="nx">Pclass</span><span class="w">          </span><span class="mi">0</span>
+<span class="nx">Name</span><span class="w">            </span><span class="mi">0</span>
+<span class="nx">Sex</span><span class="w">             </span><span class="mi">0</span>
+<span class="nx">Age</span><span class="w">            </span><span class="mi">86</span>
+<span class="nx">SibSp</span><span class="w">           </span><span class="mi">0</span>
+<span class="nx">Parch</span><span class="w">           </span><span class="mi">0</span>
+<span class="nx">Fare</span><span class="w">            </span><span class="mi">1</span>
+<span class="nx">dtype</span><span class="p">:</span><span class="w"> </span><span class="nx">int64</span>
+</code></pre></div>
+
+<p>Para solucionar los datos faltantes de la edad, debemos revisar su distribucion</p>
+<div class="highlight"><pre><span></span><code><span class="n">copy</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">copy</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">copy</span><span class="p">[</span><span class="s2">&quot;Age&quot;</span><span class="p">])</span>
+</code></pre></div>
+
+<p><img alt="" src="images/CE_1_1.jpeg"></p>
+<p>Se puede ver que esta levemente sesgada, por lo que el valor que deberiamos imputar para afectar lo menos posible seria la mediana</p>
+<div class="highlight"><pre><span></span><code><span class="n">training</span><span class="p">[</span><span class="s2">&quot;Age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">training</span><span class="p">[</span><span class="s2">&quot;Age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">(),</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">testing</span><span class="p">[</span><span class="s2">&quot;Age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">testing</span><span class="p">[</span><span class="s2">&quot;Age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">(),</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> 
+<span class="n">testing</span><span class="p">[</span><span class="s2">&quot;Fare&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">testing</span><span class="p">[</span><span class="s2">&quot;Fare&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">(),</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="n">null_table</span><span class="p">(</span><span class="n">training</span><span class="p">,</span> <span class="n">testing</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Y de esta forma logramos limpiar los datasets de valores faltantes</p>
+<div class="highlight"><pre><span></span><code><span class="nx">Training</span><span class="w"> </span><span class="nx">Data</span><span class="w"> </span><span class="nx">Frame</span>
+<span class="nx">PassengerId</span><span class="w">    </span><span class="mi">0</span>
+<span class="nx">Survived</span><span class="w">       </span><span class="mi">0</span>
+<span class="nx">Pclass</span><span class="w">         </span><span class="mi">0</span>
+<span class="nx">Name</span><span class="w">           </span><span class="mi">0</span>
+<span class="nx">Sex</span><span class="w">            </span><span class="mi">0</span>
+<span class="nx">Age</span><span class="w">            </span><span class="mi">0</span>
+<span class="nx">SibSp</span><span class="w">          </span><span class="mi">0</span>
+<span class="nx">Parch</span><span class="w">          </span><span class="mi">0</span>
+<span class="nx">Fare</span><span class="w">           </span><span class="mi">0</span>
+<span class="nx">dtype</span><span class="p">:</span><span class="w"> </span><span class="nx">int64</span>
+
+<span class="nx">Testing</span><span class="w"> </span><span class="nx">Data</span><span class="w"> </span><span class="nx">Frame</span>
+<span class="nx">PassengerId</span><span class="w">    </span><span class="mi">0</span>
+<span class="nx">Pclass</span><span class="w">         </span><span class="mi">0</span>
+<span class="nx">Name</span><span class="w">           </span><span class="mi">0</span>
+<span class="nx">Sex</span><span class="w">            </span><span class="mi">0</span>
+<span class="nx">Age</span><span class="w">            </span><span class="mi">0</span>
+<span class="nx">SibSp</span><span class="w">          </span><span class="mi">0</span>
+<span class="nx">Parch</span><span class="w">          </span><span class="mi">0</span>
+<span class="nx">Fare</span><span class="w">           </span><span class="mi">0</span>
+<span class="nx">dtype</span><span class="p">:</span><span class="w"> </span><span class="nx">int64</span>
+</code></pre></div>
+
+<h2>Visualizacion de los datos</h2>
+<h3>Supervivencia en funcion del sexo del pasajero</h3>
+<div class="highlight"><pre><span></span><code><span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;Sex&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Survived&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">training</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Distribution of Survival based on Gender&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">total_survived_females</span> <span class="o">=</span> <span class="n">training</span><span class="p">[</span><span class="n">training</span><span class="o">.</span><span class="n">Sex</span> <span class="o">==</span> <span class="s2">&quot;female&quot;</span><span class="p">][</span><span class="s2">&quot;Survived&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">total_survived_males</span> <span class="o">=</span> <span class="n">training</span><span class="p">[</span><span class="n">training</span><span class="o">.</span><span class="n">Sex</span> <span class="o">==</span> <span class="s2">&quot;male&quot;</span><span class="p">][</span><span class="s2">&quot;Survived&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total people survived is: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">total_survived_females</span> <span class="o">+</span> <span class="n">total_survived_males</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Proportion of Females who survived:&quot;</span><span class="p">)</span> 
+<span class="nb">print</span><span class="p">(</span><span class="n">total_survived_females</span><span class="o">/</span><span class="p">(</span><span class="n">total_survived_females</span> <span class="o">+</span> <span class="n">total_survived_males</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Proportion of Males who survived:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">total_survived_males</span><span class="o">/</span><span class="p">(</span><span class="n">total_survived_females</span> <span class="o">+</span> <span class="n">total_survived_males</span><span class="p">))</span>
+</code></pre></div>
+
+<p><img alt="" src="images/CE_1_2.jpeg"></p>
+<p>El sexo del pasajero parece ser determinante al momento de predecir su supervivencia.</p>
+<h3>Supervivencia en funcion de la clase del pasajero</h3>
+<div class="highlight"><pre><span></span><code><span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;Pclass&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Survived&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">training</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Survival Rate&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Distribution of Survival Based on Class&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">total_survived_one</span> <span class="o">=</span> <span class="n">training</span><span class="p">[</span><span class="n">training</span><span class="o">.</span><span class="n">Pclass</span> <span class="o">==</span> <span class="mi">1</span><span class="p">][</span><span class="s2">&quot;Survived&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">total_survived_two</span> <span class="o">=</span> <span class="n">training</span><span class="p">[</span><span class="n">training</span><span class="o">.</span><span class="n">Pclass</span> <span class="o">==</span> <span class="mi">2</span><span class="p">][</span><span class="s2">&quot;Survived&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">total_survived_three</span> <span class="o">=</span> <span class="n">training</span><span class="p">[</span><span class="n">training</span><span class="o">.</span><span class="n">Pclass</span> <span class="o">==</span> <span class="mi">3</span><span class="p">][</span><span class="s2">&quot;Survived&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">total_survived_class</span> <span class="o">=</span> <span class="n">total_survived_one</span> <span class="o">+</span> <span class="n">total_survived_two</span> <span class="o">+</span> <span class="n">total_survived_three</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total people survived is: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">total_survived_class</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Proportion of Class 1 Passengers who survived:&quot;</span><span class="p">)</span> 
+<span class="nb">print</span><span class="p">(</span><span class="n">total_survived_one</span><span class="o">/</span><span class="n">total_survived_class</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Proportion of Class 2 Passengers who survived:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">total_survived_two</span><span class="o">/</span><span class="n">total_survived_class</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Proportion of Class 3 Passengers who survived:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">total_survived_three</span><span class="o">/</span><span class="n">total_survived_class</span><span class="p">)</span>
+</code></pre></div>
+
+<p><img alt="" src="images/CE_1_3.jpeg"></p>
+<p>Como era de esperarse, aquellos pasajeros de primera y segunda clase tienen mas chances de sobrevivir el hundimiento.</p>
+<h3>Supervivencia en funcion de la edad del pasajero</h3>
+<div class="highlight"><pre><span></span><code><span class="n">survived_ages</span> <span class="o">=</span> <span class="n">training</span><span class="p">[</span><span class="n">training</span><span class="o">.</span><span class="n">Survived</span> <span class="o">==</span> <span class="mi">1</span><span class="p">][</span><span class="s2">&quot;Age&quot;</span><span class="p">]</span>
+<span class="n">not_survived_ages</span> <span class="o">=</span> <span class="n">training</span><span class="p">[</span><span class="n">training</span><span class="o">.</span><span class="n">Survived</span> <span class="o">==</span> <span class="mi">0</span><span class="p">][</span><span class="s2">&quot;Age&quot;</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">survived_ages</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Survived&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Proportion&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">not_survived_ages</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Didn&#39;t Survive&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">right</span><span class="o">=</span><span class="mf">1.7</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="" src="images/CE_1_4.jpeg"></p>
+<p>En estas graficas no es tan claro como en las anteriores, pero en general se puede ver que aquellas personas mas jovenes tienen mas chaces de supervivencia.</p>
+<h2>Modelado</h2>
+<p>Dado que se trata de un problema de clasificacion, primero pasaremos el atributo <em>Age</em> de tipo categorico a numerico.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelEncoder</span>
+
+<span class="n">le_sex</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+<span class="n">le_sex</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">training</span><span class="p">[</span><span class="s2">&quot;Sex&quot;</span><span class="p">])</span>
+
+<span class="n">encoded_sex_training</span> <span class="o">=</span> <span class="n">le_sex</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">training</span><span class="p">[</span><span class="s2">&quot;Sex&quot;</span><span class="p">])</span>
+<span class="n">training</span><span class="p">[</span><span class="s2">&quot;Sex&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">encoded_sex_training</span>
+<span class="n">encoded_sex_testing</span> <span class="o">=</span> <span class="n">le_sex</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">testing</span><span class="p">[</span><span class="s2">&quot;Sex&quot;</span><span class="p">])</span>
+<span class="n">testing</span><span class="p">[</span><span class="s2">&quot;Sex&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">encoded_sex_testing</span>
+</code></pre></div>
+
+<p>Tambien eliminaremos el nombre de los tripulantes.</p>
+<div class="highlight"><pre><span></span><code><span class="n">training</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;Name&quot;</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">testing</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;Name&quot;</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Y reescalaremos <em>Age</em> y <em>Fare</em> para que sean mas representativos y no parezcan mas importantes que otras.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+
+<span class="n">ages_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">training</span><span class="p">[</span><span class="s2">&quot;Age&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">fares_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">training</span><span class="p">[</span><span class="s2">&quot;Fare&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ages_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">testing</span><span class="p">[</span><span class="s2">&quot;Age&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">fares_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">testing</span><span class="p">[</span><span class="s2">&quot;Fare&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">training</span><span class="p">[</span><span class="s2">&quot;Age&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">ages_train</span><span class="p">)</span>
+<span class="n">training</span><span class="p">[</span><span class="s2">&quot;Fare&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">fares_train</span><span class="p">)</span>
+<span class="n">testing</span><span class="p">[</span><span class="s2">&quot;Age&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">ages_test</span><span class="p">)</span>
+<span class="n">testing</span><span class="p">[</span><span class="s2">&quot;Fare&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">fares_test</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Ahora que los datos fueron procesados, podemos empezar a construir los modelos</p>
+<div class="highlight"><pre><span></span><code><span class="c1">#Models</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span><span class="p">,</span> <span class="n">LinearSVC</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">GaussianNB</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+
+<span class="c1">#Performance</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">make_scorer</span><span class="p">,</span> <span class="n">accuracy_score</span> 
+
+<span class="c1">#Model Selection</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;PassengerId&quot;</span><span class="p">,</span> <span class="s2">&quot;Survived&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">training</span><span class="p">[</span><span class="s2">&quot;Survived&quot;</span><span class="p">]</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">testing</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;PassengerId&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">X_training</span><span class="p">,</span> <span class="n">X_valid</span><span class="p">,</span> <span class="n">y_training</span><span class="p">,</span> <span class="n">y_valid</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>Naive Bayes</h3>
+<div class="highlight"><pre><span></span><code><span class="n">gnb_clf</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+
+<span class="n">parameters_gnb</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="n">grid_gnb</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">gnb_clf</span><span class="p">,</span> <span class="n">parameters_gnb</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">make_scorer</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">))</span>
+<span class="n">grid_gnb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_training</span><span class="p">,</span> <span class="n">y_training</span><span class="p">)</span>
+
+<span class="n">gnb_clf</span> <span class="o">=</span> <span class="n">grid_gnb</span><span class="o">.</span><span class="n">best_estimator_</span>
+
+<span class="n">gnb_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_training</span><span class="p">,</span> <span class="n">y_training</span><span class="p">)</span>
+<span class="n">pred_gnb</span> <span class="o">=</span> <span class="n">gnb_clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_valid</span><span class="p">)</span>
+<span class="n">acc_gnb</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_valid</span><span class="p">,</span> <span class="n">pred_gnb</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The Score for Gaussian NB is: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">acc_gnb</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nv">The</span><span class="w"> </span><span class="nv">Score</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">Gaussian</span><span class="w"> </span><span class="nv">NB</span><span class="w"> </span><span class="nv">is</span>:<span class="w"> </span><span class="mi">0</span>.<span class="mi">7932960893854749</span>
+</code></pre></div>
+
+<h3>k-NN</h3>
+<div class="highlight"><pre><span></span><code><span class="n">knn_clf</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">()</span>
+
+<span class="n">parameters_knn</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;n_neighbors&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span> <span class="s2">&quot;weights&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;uniform&quot;</span><span class="p">,</span> <span class="s2">&quot;distance&quot;</span><span class="p">],</span> <span class="s2">&quot;algorithm&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="s2">&quot;ball_tree&quot;</span><span class="p">,</span> <span class="s2">&quot;kd_tree&quot;</span><span class="p">],</span>
+                  <span class="s2">&quot;leaf_size&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">50</span><span class="p">]}</span>
+
+<span class="n">grid_knn</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">knn_clf</span><span class="p">,</span> <span class="n">parameters_knn</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">make_scorer</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">))</span>
+<span class="n">grid_knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_training</span><span class="p">,</span> <span class="n">y_training</span><span class="p">)</span>
+
+<span class="n">knn_clf</span> <span class="o">=</span> <span class="n">grid_knn</span><span class="o">.</span><span class="n">best_estimator_</span>
+
+<span class="n">knn_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_training</span><span class="p">,</span> <span class="n">y_training</span><span class="p">)</span>
+<span class="n">pred_knn</span> <span class="o">=</span> <span class="n">knn_clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_valid</span><span class="p">)</span>
+<span class="n">acc_knn</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_valid</span><span class="p">,</span> <span class="n">pred_knn</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The Score for KNeighbors is: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">acc_knn</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nv">The</span><span class="w"> </span><span class="nv">Score</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">KNeighbors</span><span class="w"> </span><span class="nv">is</span>:<span class="w"> </span><span class="mi">0</span>.<span class="mi">7821229050279329</span>
+</code></pre></div>
+
+<h3>Logistic Regression</h3>
+<div class="highlight"><pre><span></span><code><span class="n">logreg_clf</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+
+<span class="n">parameters_logreg</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;penalty&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;l2&quot;</span><span class="p">],</span> <span class="s2">&quot;fit_intercept&quot;</span><span class="p">:</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span> <span class="s2">&quot;solver&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;newton-cg&quot;</span><span class="p">,</span> <span class="s2">&quot;lbfgs&quot;</span><span class="p">,</span> <span class="s2">&quot;liblinear&quot;</span><span class="p">,</span> <span class="s2">&quot;sag&quot;</span><span class="p">,</span> <span class="s2">&quot;saga&quot;</span><span class="p">],</span>
+                     <span class="s2">&quot;max_iter&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">],</span> <span class="s2">&quot;warm_start&quot;</span><span class="p">:</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]}</span>
+
+<span class="n">grid_logreg</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">logreg_clf</span><span class="p">,</span> <span class="n">parameters_logreg</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">make_scorer</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">))</span>
+<span class="n">grid_logreg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_training</span><span class="p">,</span> <span class="n">y_training</span><span class="p">)</span>
+
+<span class="n">logreg_clf</span> <span class="o">=</span> <span class="n">grid_logreg</span><span class="o">.</span><span class="n">best_estimator_</span>
+
+<span class="n">logreg_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_training</span><span class="p">,</span> <span class="n">y_training</span><span class="p">)</span>
+<span class="n">pred_logreg</span> <span class="o">=</span> <span class="n">logreg_clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_valid</span><span class="p">)</span>
+<span class="n">acc_logreg</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_valid</span><span class="p">,</span> <span class="n">pred_logreg</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The Score for Logistic Regression is: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">acc_logreg</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nv">The</span><span class="w"> </span><span class="nv">Score</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">Logistic</span><span class="w"> </span><span class="nv">Regression</span><span class="w"> </span><span class="nv">is</span>:<span class="w"> </span><span class="mi">0</span>.<span class="mi">7988826815642458</span>
+</code></pre></div>
+
+<h3>Comparación</h3>
+<p>Para comparar las performances de los modelos ejecutamos el siguiente codigo</p>
+<div class="highlight"><pre><span></span><code><span class="n">model_performance</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;Model&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Logistic Regression&quot;</span><span class="p">,</span> <span class="s2">&quot;K Nearest Neighbors&quot;</span><span class="p">,</span> <span class="s2">&quot;Gaussian Naive Bayes&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;Accuracy&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">acc_logreg</span><span class="p">,</span> <span class="n">acc_knn</span><span class="p">,</span> <span class="n">acc_gnb</span><span class="p">]</span>
+<span class="p">})</span>
+
+<span class="n">model_performance</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+
+<p><img alt="" src="images/CE_1_5.jpeg"></p>
+<p>Podemos ver que el modelo mas adecuado para este problema es el de Regresión Logística.</p>
+<p>Y así finaliza el proceso.</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a href="https://www.python.org/">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

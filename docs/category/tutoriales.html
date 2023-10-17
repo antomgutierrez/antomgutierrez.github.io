@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="generator" content="Pelican" />
+        <title>INTRODUCCIÓN A LOS MÉTODOS DE APRENDIZAJE AUTOMÁTICO - Tutoriales</title>
+        <link rel="stylesheet" href="../theme/css/main.css" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="../">INTRODUCCIÓN A LOS MÉTODOS DE APRENDIZAJE AUTOMÁTICO</a></h1>
+                <nav><ul>
+                    <li><a href="../category/caso-de-estudio.html">Caso de estudio</a></li>
+                    <li><a href="../category/home.html">Home</a></li>
+                    <li><a href="../category/introduccion.html">Introduccion</a></li>
+                    <li class="active"><a href="../category/tutoriales.html">Tutoriales</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="../tutoriales-rapidminer-build-a-model.html">"Tutoriales RapidMiner: Build a model"</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2013-10-16T00:00:00+02:00">
+                Published: Wed 16 October 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="../author/antonella-gutierrez.html">Antonella Gutierrez</a>
+        </address>
+<p>In <a href="../category/tutoriales.html">Tutoriales</a>.</p>
+
+</footer><!-- /.post-info --><h2>Tutoriales RapidMiner: Build a model</h2>
+<h3>Modeling</h3>
+<p>El objetivo de este tutorial es explorar distintos modelos de clasificacion (<em>Decision Tree</em>, <em>Naive Bayes</em> y <em>Rule Induction</em>)</p>
+<p>Se inicia con el dataset provisto por RapidMiner <em>Titanic Training</em>, que ya cuenta con los ajustes realizados en el tutorial de <em>Prepare data</em> y esta listo para ser usado para el entrenamiento, como su nombre lo indica.</p>
+<p>Luego de agregar los tres modelos, el proceso resultante es el siguiente</p>
+<p><img alt="" src="images/UT2_PD2_1.jpeg"></p>
+<p>Al ejecutarlo, podemos ver varios datos interesantes:
+- El hombre tiene en general menos posibilidades de supervivencia</p>
+<p><img alt="" src="images/UT2_PD2_1_1.jpeg"></p>
+<ul>
+<li>La cantidad de familiares en el barco y el <em>Passenger Fare</em> parecen ser determinante al momento de determinar la supervivencia de las mujeres</li>
+</ul>
+<p><img alt="" src="images/UT2_PD2_1_2.jpeg"></p>
+<p>En resumen, se aplicaron tres modelos al dataset con el objetivo de lograr entender e interpretar quién tuvo más posibilidades de sobrevivir.</p>
+<h3>Scoring</h3>
+<p>El objetivo de este tutorial es mostrar como realizar predicciones. Se ultilizará el modelo de <em>Naive Bayes</em> para intentar predecir si nuevos pasajeros sobrevivirán o no.</p>
+<p>Utilizando nuevamente el dataset <em>Titanic Training</em> y aplicando el modelo correspondiente, el proceso resultante es el siguiente:</p>
+<p><img alt="" src="images/UT2_PD2_2.jpeg"></p>
+<p>Y al ejecutarlo podemos ver que para aquellos registros de <em>Titanic Unlabeled</em> (es decir, sin contar con la columna correspondiente a la variable objetivo), podemos ver que se realizaron las predicciones con su respectivos niveles de confianza:</p>
+<p><img alt="" src="images/UT2_PD2_2_1.jpeg"></p>
+<p>Y de esta forma finaliza el tutorial.</p>
+<h3>Tests Splits and Validation</h3>
+<p>El objetivo de este tutorial es ver y medir que tan bien se comportan los modelos, y que tan bien se comportaran ante nuevos escenarios.
+Para validarlo, es necesario poder probar el modelo con datos reales, es decir, <em>labeled data</em>.
+Para ello, debemos reservar parte de los registros de entrenamiento para ser usados para testear el modelo.</p>
+<p>El operador <em>Split Data</em> nos permite dividir un dataset en varias particiones. En este caso usaremos el 70% para el entrenamiento y el 30% restante para testing.</p>
+<p>Finalmente, luego de aplicar el modelo, se añade el operador <em>Performance</em> que va a permitir visualizar globalmente la exactitud (accuracy) del modelo.</p>
+<p><img alt="" src="images/UT2_PD2_3.jpeg"></p>
+<p>Al ejecutar el proceso, podemos ver:</p>
+<p>1) El resultado de aplicar el modelo a los datos que cuentan con label, podemos comparar uno a uno para ver el comportamiento. Similar al resultado del tutorial anterior.
+<img alt="" src="images/UT2_PD2_3_1.jpeg"></p>
+<p>2) La matriz de performance del modelo:
+<img alt="" src="images/UT2_PD2_3_2.jpeg"></p>
+<p>Podemos ver que se cuenta con un <em>80.36</em>% de accuracy. Este % se podria aumentar variando las proporciones de sapleo del dataset original o mediante la ultilizacion de otro modelo.</p>
+<h3>Cross Validation</h3>
+<p>El objetivo de este tutorial es hacer uso del operador <em>Cross Validation</em>. En el tutorial anterior se vio que dividiendo el dataset para obtener conjuntos de entrenamiento y tests puede ser un buen acercamiento, pero todo depende de como se realice dicha division. Es posible que estos conjuntos tengan diferencias significativas, haciendo que el conjunto de entrenamiento sea mas "facil" o "dificil".</p>
+<p>La idea del <em>Cross Validation</em> es que cada registro del conjunto original sea usado tanto para entrenamiento como para pruebas del modelo. Como default realiza 10 divisiones y 10 ejecuciones. Para cada ejecucion se utilizan 9/10 divisiones para entrenas y 1/10 para testear.</p>
+<p>El proceso resultante es el siguiente:
+<img alt="" src="images/UT2_PD2_4.jpeg">
+<img alt="" src="images/UT2_PD2_4_1.jpeg"></p>
+<p>Y al ejecutarlo:
+<img alt="" src="images/UT2_PD2_4_2.jpeg"></p>
+<p>Podemos ver que se cuenta con un <em>80.35</em>% de accuracy, similar al resultado obtenido con el <em>Split data</em>, pero dependiendo del dataset y modelo utilizado puede ser mas conveniente usar uno u otro.</p>
+<h3>Visual Model Comparison</h3>
+<p>El objetivo de este tutorial es hacer uso del operador <em>Compare ROCs</em> (Receiver Operating Characteristics). Muestra qué tan bien funciona un modelo binario de aprendizaje automático. Muestra la tasa de verdaderos positivos (TPR) frente a la tasa de falsos positivos (FPR) para diferentes umbrales de confianza del modelo.</p>
+<p>El operador <em>Compare ROCs</em> realiza internamente un <em>Cross Validation</em></p>
+<p>El proceso resultante es el siguiente:</p>
+<p><img alt="" src="images/UT2_PD2_5.jpeg">
+<img alt="" src="images/UT2_PD2_5_1.jpeg"></p>
+<p>Y al ejecutarlo:
+<img alt="" src="images/UT2_PD2_5_2.jpeg"></p>
+<p>Podemos ver que todos son mas efectivos que elegir aleatoriamente un valor. En orden de efectividad, el mejor para este caso seria el arbol de decision, y el peor Naive Bayes</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="../tutoriales-rapidminer-prepare-data.html" rel="bookmark"
+                           title="Permalink to "Tutoriales RapidMiner: Prepare data"">"Tutoriales RapidMiner: Prepare data"</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-10-16T00:00:00+02:00">
+                Published: Wed 16 October 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="../author/antonella-gutierrez.html">Antonella Gutierrez</a>
+        </address>
+<p>In <a href="../category/tutoriales.html">Tutoriales</a>.</p>
+
+</footer><!-- /.post-info -->                <h2>Tutoriales RapidMiner: Prepare data</h2>
+<h3>Handling Missing Values</h3>
+<p>El objetivo de estos tutoriales es mostrar como realizar procesos de preparacion de datos: manejar datos faltantes, normalizacion y deteccion de outliers.</p>
+<p>Inicia por obtener el dataset de "Titanic" y analizar sus atributos en profundidad.
+En base a ese analisis, se determina que …</p>
+                <a class="readmore" href="../tutoriales-rapidminer-prepare-data.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+                </ol><!-- /#posts-list -->
+                </section><!-- /#content -->
+        <section id="extras" class="body">
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a href="https://www.python.org/">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

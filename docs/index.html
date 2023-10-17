@@ -12,15 +12,300 @@
         <header id="banner" class="body">
                 <h1><a href="./">INTRODUCCIÓN A LOS MÉTODOS DE APRENDIZAJE AUTOMÁTICO</a></h1>
                 <nav><ul>
+                    <li><a href="./category/caso-de-estudio.html">Caso de estudio</a></li>
                     <li><a href="./category/home.html">Home</a></li>
-                    <li><a href="./category/ut1.html">UT1</a></li>
-                    <li><a href="./category/ut2.html">UT2</a></li>
+                    <li><a href="./category/introduccion.html">Introduccion</a></li>
+                    <li><a href="./category/tutoriales.html">Tutoriales</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="./home.html">Home</a></h1>
+                    <h1 class="entry-title"><a href="./caso-de-estudio-chronic-kidney-disease.html">"Caso de estudio: Chronic Kidney Disease"</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2013-10-16T00:00:00+02:00">
+                Published: Wed 16 October 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/antonella-gutierrez.html">Antonella Gutierrez</a>
+        </address>
+<p>In <a href="./category/caso-de-estudio.html">Caso de estudio</a>.</p>
+
+</footer><!-- /.post-info --><h1>Caso de Estudio: Chronic Kidney Disease</h1>
+<h2>Análisis del problema planteado</h2>
+<p>Actualmente, hay muchas personas en el mundo que padecen enfermedades renales. Debido a varios factores de riesgo como la alimentación, el medio ambiente y el nivel de vida, muchas personas contraen enfermedades repentinamente sin comprender su condición. El diagnóstico de enfermedades renales crónicas es generalmente invasivo, costoso, lento y a menudo riesgoso. Es por eso que muchos pacientes llegan a etapas tardías sin tratamiento, especialmente en aquellos países donde los recursos son limitados. Por lo tanto, la estrategia de detección temprana de la enfermedad sigue siendo importante, particularmente en los países en desarrollo, donde las enfermedades generalmente se diagnostican en etapas tardías.</p>
+<p>El objetivo del problema, haciendo uso del dataset https://archive.ics.uci.edu/dataset/336/chronic+kidney+disease de la UCI, es <em>predecir la presencia de una enfermedad renal crónica</em>, a partir de diversos datos obtenidos en un hospital, a traves de análisis de sangre, orina, entre otros.</p>
+<h3>Atributos</h3>
+<p>A continuación se presentan los atributos pertenecientes al dataset, que seran usados para las predicciones.</p>
+<ul>
+<li>
+<p>Age (edad)</p>
+<ul>
+<li>Numerico</li>
+<li>Representa la edad en años del sujeto.</li>
+</ul>
+</li>
+<li>
+<p>Blood Pressure (presion arterial)</p>
+<ul>
+<li>Numerico</li>
+<li>Representa la presion arterial del sujeto en mm/Hg.</li>
+</ul>
+</li>
+<li>
+<p>Specific Gravity</p>
+<ul>
+<li>Nominal (1.005, 1.010, 1.015, 1.020, 1.025)</li>
+<li>Mide la capacidad de los riñones para equilibrar el contenido de agua y excretar desechos.</li>
+</ul>
+</li>
+<li>
+<p>Albumin (albúmina)</p>
+<ul>
+<li>Nominal (0, 1, 2, 3, 4, 5) </li>
+<li>Es una proteína producida por el hígado</li>
+<li>Una cantidad de albúmina alta en sangre podría indicar deshidratación o diarrea grave.</li>
+</ul>
+</li>
+<li>
+<p>Sugar (azúcar)</p>
+<ul>
+<li>Nominal (0, 1, 2, 3, 4, 5) </li>
+<li>Es el azúcar principal que se encuentra en la sangre</li>
+</ul>
+</li>
+<li>
+<p>Red Blood Cells (glóbulos rojos)</p>
+<ul>
+<li>Nominal (normal, abnormal)</li>
+<li>Su función es transportar el oxígeno hacia los diferentes tipos de tejidos del cuerpo.</li>
+</ul>
+</li>
+<li>
+<p>Pus Cells (celulas de pus)</p>
+<ul>
+<li>Nominal (normal, abnormal)</li>
+<li>Las células de pus en la orina son un indicio de infección del tracto urinario y, en casos graves, pueden indicar sepsis o cualquier otra afección de salud.</li>
+</ul>
+</li>
+<li>
+<p>Pus Cell clumps</p>
+<ul>
+<li>Nominal (present, notpresent)</li>
+<li>Es significativo (present) si hay más de 4 células de pus/HPF en una muestra de orina centrifugada.</li>
+</ul>
+</li>
+<li>
+<p>Bacteria</p>
+<ul>
+<li>Nominal (present, notpresent)</li>
+<li>Presencia de bacterias en la orina. En general indicativo de infeccion urinaria.</li>
+</ul>
+</li>
+<li>
+<p>Blood Glucose Random (glucosa en sangre al azar)</p>
+<ul>
+<li>Numerico</li>
+<li>Mide el nivel de azúcar en la sangre en el momento de realizar la prueba, sin ayuno, en mgs/dl. Un valor de 200 mg/dL o mas indica diabetes.</li>
+</ul>
+</li>
+<li>
+<p>Blood Urea (urea en sangre)</p>
+<ul>
+<li>Numerico</li>
+<li>Indica la cantidad de urea, en mgs/dl, en sangre</li>
+<li>Una alta cantdiad implica un mal funcionamiento de los riñones, ya que no son capaces de filtrarla.</li>
+</ul>
+</li>
+<li>
+<p>Serum Creatinine</p>
+<ul>
+<li>Numerico</li>
+<li>Indica la cantidad de creatinina, en mgs/dl, en sangre.</li>
+</ul>
+</li>
+<li>
+<p>Sodium (sodio)</p>
+<ul>
+<li>Numerico</li>
+<li>Indica la cantidad de sodio, en mEq/L</li>
+<li>Los resultados de niveles de sodio más altos de lo normal, pueden ser un signo de alguna afección renal.</li>
+</ul>
+</li>
+<li>
+<p>Potassium (potasio)</p>
+<ul>
+<li>Numerico</li>
+<li>Indica la cantidad de potasio, en mEq/L</li>
+<li>Niveles de potasio altos pueden causar irregularidades en el latido del corazón, y en los casos más graves un ataque cardiaco.</li>
+</ul>
+</li>
+<li>
+<p>Hemoglobin (hemoglobina)</p>
+<ul>
+<li>Numerico </li>
+<li>Es una proteína del interior de los glóbulos rojos que transporta oxígeno desde los pulmones a los tejidos y órganos del cuerpo.</li>
+<li>Indica la cantidad de hemoglobina en sangre, en gms.</li>
+</ul>
+</li>
+<li>
+<p>Packed  Cell Volume
+// TODO</p>
+</li>
+</ul>
+<h2>Identificación del tipo de problema</h2>
+<p>Dado que el atributo a predecir es una variable categorica (la presencia o no de enfermedad renal crónica), se trata de un problema de <em>clasificacion supervisado</em>.</p>
+<h2>Análisis del dataset y preparación de los datos</h2>
+<h3>Analisis del dataset</h3>
+<p>El dataset cuenta con 400 registros y no se cuenta con dataset de testing.
+Se importa el dataset en RapidMiner respetando los tipos indicados en la web de UCI y marcando el atributo <em>class</em> como label e <em>id</em> como id.</p>
+<h3>Reemplazo de valores (manejo de datos faltantes e inconsistentes)</h3>
+<p>Los datos faltantes (missing values) son datos que no existen en el dataset. Dependiendo del contexto es posible que sea valido dejarlo como está o reemplazarlo con algún valor. No siempre es un problema.</p>
+<p><img alt="" src="images/CE_2_1.jpeg"></p>
+<p>En este caso, contamos con varios atributos con valores faltantes. Dado que el dataset cuenta con 400 registros, no podemos permitirnos eliminar cerca de 1/3 solo para solucionar los valores faltantes del primer att.
+Teniendo esto en cuenta, lo mejor será imputar el valor promedio (o moda para los de tipo categorico).</p>
+<p><img alt="" src="images/CE_2_2.jpeg"></p>
+<p>Los datos inconsistentes ocurren cuando el valor existe (no es un missing) pero no es válido o significativo.</p>
+<p>Echando otro vistazo, se puede observar que hay varias variables categoricas que cuentan con el valor "<em>?</em>", que seguramente quiso representar que es un dato faltante y RapidMiner lo interpretó como un valor valido. Con los numericos no ocurre esto ya que al momento de importar el dataset y setear los tipos de cada columna, si existia algun "<em>?</em>" (que no es un valor numerico valido) fue automáticamente transformado a un valor missing.</p>
+<p>Por lo tanto, antes de reemplazar los valores faltantes, debemos reemplazar todos los "<em>?</em>" presentes por valores vacios.</p>
+<p>Además, podemos observar que los siguientes atributos cuentan con valores invalidos, no contemplados en la especificación:</p>
+<p><img alt="" src="images/CE_2_3.jpeg">
+<img alt="" src="images/CE_2_4.jpeg">
+<img alt="" src="images/CE_2_5.jpeg"></p>
+<p>Para todos ellos, debemos interpretar cual pudo haber sido la intencion de quien ingreso los datos e imputar el valor correcto</p>
+<p>Creamos un subproceso llamado "Replace values" y allí ingresamos todos los operadores necesarios para resolver los problemas planteados en esta parte.</p>
+<p><img alt="" src="images/CE_2_6.jpeg"></p>
+<h3>Outliers</h3>
+<p>Una vez solucionados los valores faltantes e inconsistentes, es hora de prestar atencion a los outliers:</p>
+<p><img alt="" src="images/CE_2_7.jpeg"></p>
+<p>Luego de un poco de investigacion, un nivel de presion sanguínea de 180 es sumamente peligrosa pero posible, por lo que este outlier no debe ser modificado.</p>
+<p><img alt="" src="images/CE_2_8.jpeg"></p>
+<p>Un nivel de urea en sangre por encima de lo normal (superior a 40 mg/dL) puede indicar problemas en los riñones, deshidratación, sangrado gastrointestinal, insuficiencia cardíaca, infecciones graves u otras condiciones médicas serias.
+Por lo tanto, valores superiores a 300 (3 presentes en el dataset) deberian ser eliminados por ser considerados invalidos</p>
+<p><img alt="" src="images/CE_2_9.jpeg"></p>
+<p>Los niveles normales de sodio en sangre estan alrededor de 135 a 145 mEq/L. Un valor de 5 mEq/L es inválido, por lo que debe ser eliminado.</p>
+<p><img alt="" src="images/CE_2_10.jpeg"></p>
+<p>El rango normal de creatinina para adultos se encuentra entre 0.5 y 1.2 mg/dL. Eliminaremos aquellos valores que esten por encima de 20 ya que no son considerados validos.</p>
+<p><img alt="" src="images/CE_2_11.jpeg"></p>
+<p>Los niveles normales de potasio en sangre estan alrededor de 3.5 a 5.0 mEq/L. Eliminaremos aquellos valires por encima de 15 por ser considerados invalidos.</p>
+<p>Crearemos un subproceso llamado "Outliers" para realizar los filtros que se mencionan en esta seccion.</p>
+<p><img alt="" src="images/CE_2_12.jpeg"></p>
+<p>Una vez eliminados los outliers, quedamos con 383 registros restantes para entrenamiento y testing.</p>
+<h3>¿Cómo cambia la probabilidad de desarrollar CKD en relación con diabetes, hipertensión o edad?</h3>
+<p><img alt="" src="images/CE_2_13.jpeg">
+<img alt="" src="images/CE_2_14.jpeg"></p>
+<p>Tanto la presencia de diabetes como de hipertensión parecen estar estrechamente relacionadas con la posibilidad de desarrollar una enfermedad renal crónica.</p>
+<p><img alt="" src="images/CE_2_15.jpeg"></p>
+<p>Al analizar la edad, es claro que afecta en mayor cantidad a personas adultas mayores a 45 años.</p>
+<h2>Modelado</h2>
+<p>Dado que se trata de un problema de clasificacion, se proponen 3 modelos:
+- Naive Bayes
+- k-NN
+- Logistic Regression</p>
+<p>Como se cuenta con un unico dataset para entrenamiento y pruebas con relativamente pocos registros, se utilizara un <em>Cross Validation</em> (con configuración default) para sacar el mayor provecho posible de ellos. </p>
+<p><img alt="" src="images/CE_2_16.jpeg"></p>
+<h3>Naive Bayes</h3>
+<p><img alt="" src="images/CE_2_17.jpeg"></p>
+<h3>k-NN</h3>
+<p><img alt="" src="images/CE_2_18.jpeg"></p>
+<h3>Logistic Regression</h3>
+<p><img alt="" src="images/CE_2_19.jpeg"></p>
+<p>Vemos que Naiva Bayes es el modelo que mejor se comporta en este escenario.
+Tambien se puede observar utilizando la curva ROC</p>
+<p><img alt="" src="images/CE_2_20.jpeg"></p>
+<p>Por lo que nos quedaremos con el modelo de Naive Bayes</p>
+<p>Y el proceso finalizado es el siguiente</p>
+<p><img alt="" src="images/CE_2_21.jpeg"></p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./caso-de-estudio-titanic.html" rel="bookmark"
+                           title="Permalink to "Caso de estudio: Titanic"">"Caso de estudio: Titanic"</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-10-16T00:00:00+02:00">
+                Published: Wed 16 October 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/antonella-gutierrez.html">Antonella Gutierrez</a>
+        </address>
+<p>In <a href="./category/caso-de-estudio.html">Caso de estudio</a>.</p>
+
+</footer><!-- /.post-info -->                <h2>Caso de Estudio: Titanic</h2>
+<h2>Análisis del problema planteado</h2>
+<p>El hundimiento del Titanic es uno de los naufragios más infames de la historia.</p>
+<p>El 15 de abril de 1912, durante su viaje inaugural, el RMS Titanic, ampliamente considerado “insumergible”, se hundió después de chocar con un iceberg. Desafortunadamente, no había suficientes …</p>
+                <a class="readmore" href="./caso-de-estudio-titanic.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./tutoriales-rapidminer-build-a-model.html" rel="bookmark"
+                           title="Permalink to "Tutoriales RapidMiner: Build a model"">"Tutoriales RapidMiner: Build a model"</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-10-16T00:00:00+02:00">
+                Published: Wed 16 October 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/antonella-gutierrez.html">Antonella Gutierrez</a>
+        </address>
+<p>In <a href="./category/tutoriales.html">Tutoriales</a>.</p>
+
+</footer><!-- /.post-info -->                <h2>Tutoriales RapidMiner: Build a model</h2>
+<h3>Modeling</h3>
+<p>El objetivo de este tutorial es explorar distintos modelos de clasificacion (<em>Decision Tree</em>, <em>Naive Bayes</em> y <em>Rule Induction</em>)</p>
+<p>Se inicia con el dataset provisto por RapidMiner <em>Titanic Training</em>, que ya cuenta con los ajustes realizados en el tutorial de <em>Prepare data</em> y esta listo …</p>
+                <a class="readmore" href="./tutoriales-rapidminer-build-a-model.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./tutoriales-rapidminer-prepare-data.html" rel="bookmark"
+                           title="Permalink to "Tutoriales RapidMiner: Prepare data"">"Tutoriales RapidMiner: Prepare data"</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-10-16T00:00:00+02:00">
+                Published: Wed 16 October 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/antonella-gutierrez.html">Antonella Gutierrez</a>
+        </address>
+<p>In <a href="./category/tutoriales.html">Tutoriales</a>.</p>
+
+</footer><!-- /.post-info -->                <h2>Tutoriales RapidMiner: Prepare data</h2>
+<h3>Handling Missing Values</h3>
+<p>El objetivo de estos tutoriales es mostrar como realizar procesos de preparacion de datos: manejar datos faltantes, normalizacion y deteccion de outliers.</p>
+<p>Inicia por obtener el dataset de "Titanic" y analizar sus atributos en profundidad.
+En base a ese analisis, se determina que …</p>
+                <a class="readmore" href="./tutoriales-rapidminer-prepare-data.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./home.html" rel="bookmark"
+                           title="Permalink to Home">Home</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2013-09-11T00:00:00+02:00">
                 Published: Wed 11 September 2013
@@ -31,13 +316,11 @@
         </address>
 <p>In <a href="./category/home.html">Home</a>.</p>
 
-</footer><!-- /.post-info --><p>Portafolio realizado por Antonella Gutierrez.
-Contiene ejercicios realizados en el marco de la asignatura: INTRODUCCIÓN A LOS MÉTODOS DE APRENDIZAJE AUTOMÁTICO</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</footer><!-- /.post-info -->                <p>Portafolio realizado por Antonella Gutierrez.
+Contiene ejercicios realizados en el marco de la asignatura: INTRODUCCIÓN A LOS MÉTODOS DE APRENDIZAJE AUTOMÁTICO</p>
+                <a class="readmore" href="./home.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
@@ -54,7 +337,7 @@ Contiene ejercicios realizados en el marco de la asignatura: INTRODUCCIÓN A LOS
         <address class="vcard author">
                 By                         <a class="url fn" href="./author/antonella-gutierrez.html">Antonella Gutierrez</a>
         </address>
-<p>In <a href="./category/ut1.html">UT1</a>.</p>
+<p>In <a href="./category/introduccion.html">Introduccion</a>.</p>
 
 </footer><!-- /.post-info -->                <p>El objetivo de este artículo es realizar una una introducción a los conceptos de <em>Machine Learning</em> e <em>Inteligencia Artificial</em>, entre otros. También, presentar una serie de herramientas que pueden ser de utilidad.</p>
 <h2>¿Qué es el “<em>Machine Learning</em>”?</h2>
@@ -78,34 +361,12 @@ Contiene ejercicios realizados en el marco de la asignatura: INTRODUCCIÓN A LOS
         <address class="vcard author">
                 By                         <a class="url fn" href="./author/antonella-gutierrez.html">Antonella Gutierrez</a>
         </address>
-<p>In <a href="./category/ut1.html">UT1</a>.</p>
+<p>In <a href="./category/introduccion.html">Introduccion</a>.</p>
 
 </footer><!-- /.post-info -->                <h2>Preparacion de datos</h2>
 <p>Los datos no son perfectos. Como todo lo demás en la vida, están sujetos a errores humanos, inconsistencias, errores ortográficos e información incompleta, repetida o redundante.
 La idea de la preparacion de datos (data scrubbing) es mejorar estos aspectos del detaset para poder entrenar modelos que arrojen …</p>
                 <a class="readmore" href="./mapeo-de-capacidades-de-ml.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="./ut2-pd1.html" rel="bookmark"
-                           title="Permalink to "UT2 - PD1"">"UT2 - PD1"</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2013-09-11T00:00:00+02:00">
-                Published: Wed 11 September 2013
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="./author/antonella-gutierrez.html">Antonella Gutierrez</a>
-        </address>
-<p>In <a href="./category/ut2.html">UT2</a>.</p>
-
-</footer><!-- /.post-info -->                
-                <a class="readmore" href="./ut2-pd1.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->

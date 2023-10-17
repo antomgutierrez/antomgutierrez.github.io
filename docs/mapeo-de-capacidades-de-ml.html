@@ -13,9 +13,10 @@
         <header id="banner" class="body">
                 <h1><a href="./">INTRODUCCIÓN A LOS MÉTODOS DE APRENDIZAJE AUTOMÁTICO</a></h1>
                 <nav><ul>
+                    <li><a href="./category/caso-de-estudio.html">Caso de estudio</a></li>
                     <li><a href="./category/home.html">Home</a></li>
-                    <li class="active"><a href="./category/ut1.html">UT1</a></li>
-                    <li><a href="./category/ut2.html">UT2</a></li>
+                    <li class="active"><a href="./category/introduccion.html">Introduccion</a></li>
+                    <li><a href="./category/tutoriales.html">Tutoriales</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 <section id="content" class="body">
@@ -35,19 +36,15 @@
         <address class="vcard author">
                 By                         <a class="url fn" href="./author/antonella-gutierrez.html">Antonella Gutierrez</a>
         </address>
-<p>In <a href="./category/ut1.html">UT1</a>.</p>
+<p>In <a href="./category/introduccion.html">Introduccion</a>.</p>
 
 </footer><!-- /.post-info -->      <h2>Preparacion de datos</h2>
 <p>Los datos no son perfectos. Como todo lo demás en la vida, están sujetos a errores humanos, inconsistencias, errores ortográficos e información incompleta, repetida o redundante.
 La idea de la preparacion de datos (data scrubbing) es mejorar estos aspectos del detaset para poder entrenar modelos que arrojen predicciones mas certeras.</p>
-<h3>Analisis de distribuciones</h3>
-<p>// TODO</p>
-<h3>Outliers</h3>
-<p>// TODO</p>
 <h3>Manejo de datos faltantes</h3>
 <p>Son datos que no existen en el dataset. Dependiendo del contexto es posible que sea valido dejarlo como está o reemplazarlo con algún valor. No siempre es un problema.</p>
 <p>En RapidMiner, podemos ver informacion de cada atributo, en este caso lo que nos interesa son los valores faltantes. Podemos ver en este caso que <em>Read_News</em>, <em>Online_Shopping</em>, <em>Online_Gaming</em> y <em>Other_Social_Network</em> cuentan con valores faltantes
-<img alt="" src="../images/UT1_statistics.jpeg"></p>
+<img alt="" src="images/UT1_statistics.jpeg"></p>
 <p>Existe el operador <em>Replace Missing Values</em> que nos permite manejar esta situacion. Podemos elegir uno o varios atributos y reemplazar los valores faltantes por:
 - El maximo valor para ese att
 - El minimo valor para ese att
@@ -56,30 +53,41 @@ La idea de la preparacion de datos (data scrubbing) es mejorar estos aspectos de
 - Un valor especifico</p>
 <h3>Reducción de datos</h3>
 <p>La idea es filtrar los datos (registros) que no vayan a ser de utilidad.</p>
-<p>Se utiliza el operador <em>Filter Attributes</em> con las condiciones que el dataset resultado esperamos que cumpla. Puede utilizarse para eliminar outliers, valores que no pertenezcan a un rango preestablecido u como otra forma de manejar los valores faltantes (si no cuenta con un valor para el atributo X, elimino el registro completo).</p>
+<p>Se utiliza el operador <em>Filter Examples</em> con las condiciones que el dataset resultado esperamos que cumpla. Puede utilizarse para eliminar outliers, valores que no pertenezcan a un rango preestablecido u como otra forma de manejar los valores faltantes (si no cuenta con un valor para el atributo X, elimino el registro completo).</p>
 <h3>Manejo de datos inconsistentes</h3>
 <p>Ocurre cuando el valor existe pero no es válido o significativo.</p>
 <p>En el ejemplo, se puede observar que el atributo <em>Twitter</em> cuenta con 3 valores posibles: <em>Y</em>, <em>N</em> y <em>99</em> ... <em>99</em>?
 No parece ser un valor esperado para este tipo de atributo, es inconsistente.</p>
-<p><img alt="" src="../images/UT1_inconsistent.jpeg"></p>
+<p><img alt="" src="images/UT1_inconsistent.jpeg"></p>
 <p>El operador <em>Replace</em> puede ser de utilidad, ya que nos permite seleccionar el atributo y reemplazar el valor atípico <em>99</em> por uno mas razonable, <em>N</em>.
 No siempre es tan sencillo solucionar las inconsistencias dentro de un dataset, podría tomar varios reemplazos y/o operadores de datos faltantes para preparar el conjunto de datos.</p>
+<h3>Outliers</h3>
+<p>Un outlier es un dato que a simple vista es imposible que sea valido en el contexto estudiado.</p>
+<p><img alt="" src="images/UT1_outliers.jpeg"></p>
+<p>El enfoque para resolverlo es practicamente el mismo que para los datos faltantes, aunque en este caso suele ser mejor su eliminación.</p>
 <h3>Reducción de atributos</h3>
 <p>En todo dataset pueden haber atributos irrelevantes, que no aporten al proposito de predecir la variable objetivo. Si reducimos la cantidad de funciones, los modelos generalmente se entrenan mucho más rápido. Y, a menudo, el modelo resultante es más simple y fácil de entender.</p>
 <p>RapidMiner puede eliminar esos atributos en la vista sin eliminarlos del dataset, porque el hecho de que no sean de utilidad para este caso no significa que nunca vayan a ser relevantes.</p>
 <p>Hay diversas formas de reducir atributos. Puede ser realizado manualmente, con el operador <em>Select Attributes</em>.</p>
 <p>Tambien se cuenta con algoritmos para cumplir con este objetivo, dependiendo de la necesudad y tipos de datos presentes en el dataset
-<img alt="" src="../images/UT1_featureSelection.jpeg"></p>
-<h2>Tipos de algoritmos</h2>
-<h3>Descenso de Gradiente y Regresión Lineal</h3>
-<p>// TODO</p>
+<img alt="" src="images/UT1_featureSelection.jpeg"></p>
+<h2>Algoritmos supervisados</h2>
+<h3>Regresión Lineal</h3>
+<p>La regresión lineal es un método estadístico utilizado para modelar la relación lineal entre dos o más variables. En particular, busca establecer la relación entre una variable dependiente (o respuesta) y una o más variables independientes (o predictores) a través de una ecuación lineal.</p>
+<p>Es utilizado para problemas de regresión y esta limitado a datos numéricos con salida numérica</p>
 <h3>Regresión Logística</h3>
-<p>// TODO</p>
+<p>La regresión logística es un modelo estadístico utilizado para analizar la relación entre una o más variables independientes (predictoras) y una variable dependiente binaria categórica. La variable dependiente se representa como la probabilidad de que ocurra un evento particular.</p>
+<p>Es utilizado para problemas de clasificación y esta limitado a datos numéricos con salida binaria categórica.</p>
 <h3>Análisis Discriminante Lineal</h3>
+<p>El análisis del discriminante lineal (LDA) es una técnica de clasificación que busca separar de manera óptima distintas clases de datos en un espacio de características. El objetivo es encontrar un hiperplano que maximice la separación entre las clases y minimice la variabilidad intraclase.</p>
+<p>El LDA asume que las clases se distribuyen según una distribución normal y que tienen covarianzas iguales o proporcionales.</p>
 <h3>k-NN</h3>
-<p>// TODO</p>
+<p>K-NN (k-nearest neighbors), es un algoritmo de clasificación y regresión en aprendizaje automático. 
+En este enfoque, para clasificar un nuevo punto de datos, se identifican los "k" puntos de datos más cercanos del conjunto de entrenamiento en función de alguna métrica de distancia, comúnmente la distancia euclidiana en un espacio multidimensional. Luego, se asigna al nue
+vo punto la clase más común entre esos "k" vecinos. La elección de "k" afecta la sensibilidad del modelo a la variabilidad en los datos y puede impactar en la precisión de las predicciones.</p>
 <h3>Naive Bayes</h3>
-<p>// TODO</p>
+<p>Naive Bayes es un algoritmo de clasificación. Se basa en el teorema de Bayes, que describe la probabilidad condicional de un evento basándose en información previa sobre eventos relacionados. A pesar de su simplicidad y asunciones simplificadas, Naive Bayes es un algoritmo efectivo para clasificar datos en diferentes categorías.</p>
+<p>La suposicion "naive" es la independencia condicional de las variables predictioras con respecto a la hipótesis</p>
 <h2>Bibliografia</h2>
 <ul>
 <li>North, M. (2012). Data Mining for the Masses.</li>
