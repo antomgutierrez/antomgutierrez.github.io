@@ -80,8 +80,46 @@ A continuación se presentan los atributos pertenecientes al dataset, que seran 
     - Es una proteína del interior de los glóbulos rojos que transporta oxígeno desde los pulmones a los tejidos y órganos del cuerpo.
     - Indica la cantidad de hemoglobina en sangre, en gms.
 
-- Packed  Cell Volume
-// TODO
+- Packed Cell Volume (volumen de células empaquetadas)
+    - Numerico
+    - Es una medida de la proporción (%) de sangre que está formada por células
+
+- White Blood Cell Count (cantidad de globulos blancos)
+    - Numerico
+    - Representa la cantidad de glóbulos blancos en un volumen de sangre en celulas/cm2
+
+- Red Blood Cell Count (cantidad de globulos rojos)
+    - Numerico
+    - Representa la cantidad de glóbulos rojos en un volumen de sangre en millones/cm2
+
+- Hypertension (hipertensión)
+    - Nominal (yes, no)
+    - Indica si el paciente tiene hipertensión
+
+- Diabetes Mellitus (diabetes)
+    - Nominal (yes, no)
+    - Indica si el paciente tiene diabetes
+
+- Coronary Artery Disease (enfermedad de las arterias coronarias)
+     - Nominal (yes, no)
+     - Indica si el paciente posee una enfermedad en las arterias coronarias. Ocurre cuando dichas arterias tienen dificultad para enviar suficiente sangre, oxígeno y nutrientes a los músculos cardíacos.
+
+- Appetite (apetito)
+    - Nominal (good, poor)
+    - Indica si el paciente ha sentido sensación de hambre o ganas de comer
+
+- Pedal Edema (edema del pie)
+    - Nominal (yes, no)
+    - Indica si el paciente tiene edema en los pies, en general causada por la acumulación de líquido en los tejidos del cuerpo y relacionada con el alto consumo de sal.
+
+- Anemia
+    - Nominal (yes, no)
+    - Indica si el paciente tiene anemia, es decir, una afección que se desarrolla cuando la sangre produce una cantidad inferior a la normal de glóbulos rojos sanos.
+
+- Class
+    - Nominal (ckd, nockd)
+    - Variable objetivo
+    - Indica si la persona posee una enfermedad renal crónica
 
 ## Identificación del tipo de problema
 Dado que el atributo a predecir es una variable categorica (la presencia o no de enfermedad renal crónica), se trata de un problema de *clasificacion supervisado*.
